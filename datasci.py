@@ -27,11 +27,57 @@ class datasci():
 
         missing_report = pd.DataFrame(frame).sort_values(by='Percent of Nans', ascending = False)
 
-        print(f'The following variables contains over 80% missing values and are recommended to be removed:')
+        print(f'The following variables contains over 80% missing values:')
         print(missing_report[missing_report['Percent of Nans']>=80].index.tolist())
         print('')
 
         return missing_report
+    
+
+    def imputation(self, columns, impute = 'mean', check = False):
+        if impute == 'mean':
+            for col in columns:
+                self.df[col].fillna(self.df[col].mean(), inplace = True)
+
+        elif impute == 'median':
+            for col in columns:
+                self.df[col].fillna(self.df[col].median(), inplace = True)
+        
+        elif impute == 'max':
+            for col in columns:
+                self.df[col].fillna(self.df[col].max(), inplace = True)
+
+        elif impute == 'min':
+            for col in columns:
+                self.df[col].fillna(self.df[col].min(), inplace = True)
+    
+        elif impute == 'other':
+
+            for col in columns:
+                print(f'Please enter the value to impute "{col}":')
+                x = input()
+                self.df[col].fillna(x, inplace = True)
+        
+        if check == True:
+            print('Number of missing values after imputation:')
+            print(self.df[columns].isnull().sum())
+
+    def recode(self, column, oldVal, newVal, inplace=False):
+        new_name = str(column) + '_NEW'
+        self.df[new_name] = self.df[column].replace(oldVal, newVal)
+
+        if inplace == True:
+            self.df[column].replace(oldVal, newVal, inplace=True)
+            return self.df[column].value_counts()
+        
+        else:
+            return self.df[new_name].value_counts()
 
 
-# %%
+
+            
+            
+
+
+
+

@@ -1,38 +1,35 @@
 # %%
 
-import datasci as ds
+from datasci import datasci
 import pandas as pd
 
 
 df = pd.read_csv("flights_december.csv")
+m = datasci(df)
+print(df.head())
 
-#df.to_csv("flights_december.csv", index=False)
-#print(df.head())
-print(df.shape)
+#%%
 
-# %%
+# print(m.size())
+print(m.missingReport())
 
-#print(df.columns[df.isnull().any()].tolist())
-missingVal = df[df.columns[df.isnull().any()].tolist()].isnull().sum()
-print(missingVal)
-print(len(missingVal))
-
-# %%
-missingPer = round((df[df.columns[df.isnull().any()].tolist()].isnull().sum() * 100/ len(df)),2)
-print(missingPer)
-print(len(missingPer))
-
-# %%
-frame = {'Num of Nans': missingVal,
-         'Percent of Nans':missingPer}
-
-df_missing = pd.DataFrame(frame).sort_values(by='Percent of Nans',ascending=False)
-print(df_missing)
-
-# %%
-
+# df.to_csv("flights_december.csv", index=False)
 # df.drop(['Unnamed: 0'], axis=1, inplace=True)
-df['price'].fillna(df['price'].mean(), inplace = True)
+# print(df.head())
+# print(df.shape)
+
+# %%
+m.imputation(columns=['TAXI_IN','ARRIVAL_TIME'], impute='other', check=True)
+
+
+# %%
+print(df['AIRLINE'].value_counts())
+
+#%%
+old = ['AA','DL']
+new = ['American Airline','Delta']
+
+m.recode(column = 'AIRLINE', oldVal=old, newVal=new, inplace=True)
 
 
 # %%
