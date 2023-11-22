@@ -124,7 +124,7 @@ class datasci():
                         print(f'\n Difference found at line {line_num}: \n Orignial File: {line1} \n Target File: {line2}')
                         column1 = line1.split()
                         column2 = line2.split()
-                        for col_num, (col1, col2) in enumerate(zip(f1, f2), start = 1):
+                        for col_num, (col1, col2) in enumerate(zip(column1, column2), start = 1):
                             if col1 != col2:
                                 print(f"\n Difference found at column {col_num}: \n Orignial File: {col1} \n Target File: {col2}")
                         Indicator = False
