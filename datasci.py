@@ -106,11 +106,35 @@ class datasci():
             plt.show()
             return self.df[column].value_counts()
 
+    def column_tolist (self):
+        x = self.columns
+        temp = []
+        for i in x:
+            temp.append(i)
+        return temp
+        
 
-
-
+    def file_comparsion(file1_path , file2_path):
+        try: 
+            with open(file1_path, 'r') as f1, open(file2_path, 'r') as f2:
+                print('Comparison Started...')
+                Indicator = True
+                for line_num, (line1, line2) in enumerate(zip(f1, f2), start = 1):
+                    if line1 != line2:
+                        print(f'\n Difference found at line {line_num}: \n Orignial File: {line1} \n Target File: {line2}')
+                        column1 = line1.split()
+                        column2 = line2.split()
+                        for col_num, (col1, col2) in enumerate(zip(f1, f2), start = 1):
+                            if col1 != col2:
+                                print(f"\n Difference found at column {col_num}: \n Orignial File: {col1} \n Target File: {col2}")
+                        Indicator = False
+            if Indicator == True:
+                print('\n Original and target files have same structure and content.')
             
-            
+            return 'Comparison Completed'
+        except Exception as e:
+            print(f'Error:{e}')
+            return False            
 
 
 
