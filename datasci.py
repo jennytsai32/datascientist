@@ -27,8 +27,8 @@ class datasci():
 
         missing_report = pd.DataFrame(frame).sort_values(by='Percent of Nans', ascending = False)
 
-        print(f'The following variables contains over 80% missing values:')
-        print(missing_report[missing_report['Percent of Nans']>=80].index.tolist())
+        print(f'The following variables contains over 70% missing values:')
+        print(missing_report[missing_report['Percent of Nans']>=70].index.tolist())
         print('')
 
         return missing_report
@@ -42,6 +42,10 @@ class datasci():
         elif impute == 'median':
             for col in columns:
                 self.df[col].fillna(self.df[col].median(), inplace = True)
+        
+        elif impute == 'mode':
+            for col in columns:
+                self.df[col].fillna(self.df[col].mode(), inplace = True)
         
         elif impute == 'max':
             for col in columns:
@@ -72,6 +76,36 @@ class datasci():
         
         else:
             return self.df[new_name].value_counts()
+        
+    def eda(self, column):
+        if isinstance(self.df[column][0], (np.int64, np.int32, np.float32, np.float64)):
+    
+            data = {'N':[len(self.df[column])],
+                    '# of Nans':[self.df[column].isnull().sum()],
+                    'Mean':[self.df[column].mean()],
+                    'Std':[self.df[column].std()],
+                    'Median':[self.df[column].median()],
+                    'Max':[self.df[column].max()],
+                    'Min':[self.df[column].min()]
+                    }
+            descr = pd.DataFrame.from_dict(data, orient='index', columns=[column]).round(2)
+
+            plt.hist(self.df[column], color = "#108A99")
+            plt.axvline(self.df[column].mean(), color='r', label='mean')
+            plt.axvline(self.df[column].median(), color='blue', linestyle='dashed',label='median')
+            plt.legend()
+            plt.xlabel(column)
+
+            plt.show()
+            
+            return descr
+        
+        else:
+
+            self.df[column].value_counts(sort=False).plot.bar(rot=0)
+            plt.show()
+            return self.df[column].value_counts()
+
 
 
 
@@ -81,3 +115,5 @@ class datasci():
 
 
 
+
+# %%
