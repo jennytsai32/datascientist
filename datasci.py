@@ -18,18 +18,22 @@ class datasci():
     def size(self):
         return f"There are {self.nrows} rows and {self.ncols} columns in the dataset."
         
-    def missingReport(self):
+    def missingReport(self, insight = False):
         missingVal = self.df[self.df.columns[self.df.isnull().any()].tolist()].isnull().sum()
-        missingPer = round((missingVal * 100/ self.nrows), 2)
+        missingPer = missingVal * 100 / self.nrows
 
         frame = {'Num of Nans': missingVal,
                 'Percent of Nans': missingPer}
 
-        missing_report = pd.DataFrame(frame).sort_values(by='Percent of Nans', ascending = False)
+        missing_report = pd.DataFrame(frame).sort_values(by='Percent of Nans', ascending = False).round(2)
 
-        print(f'The following variables contains over 70% missing values:')
-        print(missing_report[missing_report['Percent of Nans']>=70].index.tolist())
-        print('')
+        if insight == True:
+            print('INSIGHT:')
+            print('The following variables contains over 70% missing values:')
+            print(missing_report[missing_report['Percent of Nans']>=70].index.tolist())
+            print()
+            print('Further check the variables to see if there is any systematic issue.\nImputation is not recommended as it may lead to misleading results.')
+            print()
 
         return missing_report
     
@@ -77,7 +81,7 @@ class datasci():
         else:
             return self.df[new_name].value_counts()
         
-    def eda(self, column):
+    def eda(self, column, insight=False):
         if isinstance(self.df[column][0], (np.int64, np.int32, np.float32, np.float64)):
     
             data = {'N':[len(self.df[column])],
@@ -86,7 +90,8 @@ class datasci():
                     'Std':[self.df[column].std()],
                     'Median':[self.df[column].median()],
                     'Max':[self.df[column].max()],
-                    'Min':[self.df[column].min()]
+                    'Min':[self.df[column].min()],
+                    'Skewness':[self.df[column].skew()]
                     }
             descr = pd.DataFrame.from_dict(data, orient='index', columns=[column]).round(2)
 
@@ -97,12 +102,19 @@ class datasci():
             plt.xlabel(column)
 
             plt.show()
-            
+
+            if insight==True:
+                print('INSIGHT:')
+                if self.df[column].skew() >= 0.5 or self.df[column].skew() <= -0.5:
+                    print('The distribution is close to normal distribution. Mean can be a good estimate for data impuation.')
+                else:
+                    print('The distribution is skewed. Median can be a good estimate for data impuation.')
+
             return descr
         
         else:
 
-            self.df[column].value_counts(sort=False).plot.bar(rot=0)
+            self.df[column].value_counts(sort=True).plot.bar(rot=0)
             plt.show()
             return self.df[column].value_counts()
 
