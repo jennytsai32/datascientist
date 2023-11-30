@@ -7,6 +7,10 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 class datasci():
     def __init__(self, df):
@@ -117,6 +121,24 @@ class datasci():
             self.df[column].value_counts(sort=True).plot.bar(rot=0)
             plt.show()
             return self.df[column].value_counts()
+        
+    def feature_selection(self, X, Y, feature_names):
+
+        clf = RandomForestClassifier(n_estimators=100)
+
+        clf.fit(X, Y)
+
+        # plot feature importances
+        # convert the importances into one-dimensional 1darray with corresponding df column names as axis labels
+        f_importances = pd.Series(clf.feature_importances_, feature_names)
+
+        f_importances.sort_values(ascending=False, inplace=True)
+
+        f_importances.plot(xlabel='Features', ylabel='Importance', kind='bar', rot=90)
+    
+        plt.tight_layout()
+        plt.show()
+
 
     def column_tolist (self):
         x = self.columns
