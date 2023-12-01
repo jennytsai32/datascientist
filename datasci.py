@@ -36,7 +36,7 @@ class datasci():
             print('The following variables contains over 70% missing values:')
             print(missing_report[missing_report['Percent of Nans']>=70].index.tolist())
             print()
-            print('Further check the variables to see if there is any systematic issue.\nImputation is not recommended as it may lead to misleading results.')
+            print('Further check the variables to see if there is any systematic issue.\nImputation is not recommended for these variables as it may lead to misleading results.')
             print()
 
         return missing_report
@@ -119,6 +119,7 @@ class datasci():
         else:
             return self.df[new_name].value_counts()
         
+
     def eda(self, column, insight=False):
         if isinstance(self.df[column][0], (np.int64, np.int32, np.float32, np.float64)):
     
@@ -151,12 +152,15 @@ class datasci():
             return descr
         
         else:
-
             self.df[column].value_counts(sort=True).plot.bar(rot=0)
             plt.show()
             return self.df[column].value_counts()
         
-    def feature_selection(self, X, Y, feature_names):
+    def feature_selection(self, columns, target):
+        
+        X = self.df[columns].values
+        Y = self.df[target].values
+        feature_names = self.df[columns].columns
 
         clf = RandomForestClassifier(n_estimators=100)
 
