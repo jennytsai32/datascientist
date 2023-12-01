@@ -42,7 +42,20 @@ class datasci():
         return missing_report
     
 
-    def imputation(self, columns, impute = 'mean', check = False):
+    def imputation(self, columns, impute = 'mean', insight=False):
+        if insight == True:
+            target = str(input("Please enter the target variable:"))
+            nan_bf = self.df[columns].isnull().sum()
+            std_bf = self.df[columns].std()
+            df1 = self.df[columns]
+            df2 = self.df[target]
+            df_new = pd.concat([df1, df2], axis=1)
+            corr_bf = df_new.corr(method='pearson')
+
+            nan_df = {'Before imputation': nan_bf}
+            std_df = {'Before imputation': std_bf}
+
+
         if impute == 'mean':
             for col in columns:
                 self.df[col].fillna(self.df[col].mean(), inplace = True)
@@ -69,10 +82,31 @@ class datasci():
                 print(f'Please enter the value to impute "{col}":')
                 x = input()
                 self.df[col].fillna(x, inplace = True)
-        
-        if check == True:
-            print('Number of missing values after imputation:')
-            print(self.df[columns].isnull().sum())
+
+        if insight == True:
+            nan_af = self.df[columns].isnull().sum()
+            nan_af = self.df[columns].isnull().sum()
+            std_af = self.df[columns].std()
+            corr_af = df_new.corr(method='pearson')
+
+            nan_df['After imputation'] = nan_af
+            std_df['After imputation'] = std_af
+            print('---------------------------------------------------')
+            print('Number of Nans:')
+            print(pd.DataFrame(nan_df))
+            print()
+            print('---------------------------------------------------')
+            print('Standard Deviation:')
+            print(pd.DataFrame(std_df).round(2))
+            print()
+            print('---------------------------------------------------')
+            print(f'Correlation with {target} before imputation:')
+            print(pd.DataFrame(corr_bf).round(2))
+            print()
+            print(f'Correlation with {target} after imputation:')
+            print(pd.DataFrame(corr_af).round(2))
+
+
 
     def recode(self, column, oldVal, newVal, inplace=False):
         new_name = str(column) + '_NEW'
