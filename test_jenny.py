@@ -1,4 +1,4 @@
-# %%
+# %% import libraries and read the dataset
 
 from datasci import datasci
 import pandas as pd
@@ -9,22 +9,27 @@ m = datasci(df)
 
 print(df.head())
 
-# df.to_csv("flights_december.csv", index=False)
-# df.drop(['Unnamed: 0'], axis=1, inplace=True)
 
-#%%
+#%% dataset size
 print(m.size())
 
 
-#%%
+#%% (1) missing value report
 print(m.missingReport(insight=True))
 
 
-# %%
+# %% (2a) EDA - continuous variable
+print(m.eda('TAXI_IN'))
+
+
+# %% (2b) EDA - categorical variable
+print(m.eda('AIRLINE'))
+
+
+# %% (3) missing value imputation
 m.imputation(columns=['TAXI_IN','ARRIVAL_TIME'], impute='median', insight=True)
 
-
-# %%
+# %% (4) variable recoding
 print(df['AIRLINE'].value_counts())
 
 
@@ -34,18 +39,7 @@ new = ['American Airline','Delta']
 
 m.recode(column = 'AIRLINE', oldVal=old, newVal=new, inplace=True)
 
-
-
-# %%
-print(m.eda('TAXI_IN'))
-
-# If skewness is between -0.5 and 0.5, the distribution is approximately symmetric.
-
-# %%
-print(m.eda('AIRLINE'))
-
-
-# %%
+# %% data-cleaning using pandas
 
 df.drop(['YEAR',                   # year = 2015, add no value to the model
         'FLIGHT_NUMBER',           # too many categories and will cause trouble in one-hot encoding
@@ -68,17 +62,12 @@ df.drop(['YEAR',                   # year = 2015, add no value to the model
         'AIRLINE'],              
         axis=1, inplace=True)
 
-# %%
-# Drop rows where target value is missing (the missing records are either cancelled flights or diverted flights)
 df.dropna(subset=['ARRIVAL_DELAY'], inplace=True)
 
-
-# %%
-# Convert into binary target for classification (1 = delay, 0 = not delay)
 df['ARRIVAL_DELAY'] = df['ARRIVAL_DELAY'].apply(lambda x:'1' if x>0 else '0')
 
 
-# %%
+# %% (5) feature selection
 features = df.iloc[:, 0:-1].columns
 target = 'ARRIVAL_DELAY'
 m.feature_selection(features, target)
