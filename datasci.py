@@ -178,7 +178,7 @@ class datasci():
 
 
     def column_tolist (self):
-        x = self.columns
+        x = self.columns()
         temp = []
         for i in x:
             temp.append(i)
@@ -186,30 +186,28 @@ class datasci():
         
 
 
+    def file_comparsion(file1_path , file2_path):
+        try: 
+            with open(file1_path, 'r') as f1, open(file2_path, 'r') as f2:
+                print('Comparison Started...')
+                Indicator = True
+                for line_num, (line1, line2) in enumerate(zip(f1, f2), start = 1):
+                    if line1 != line2:
+                        print(f'\nDifference found at line {line_num}: \n{file1_path}: {line1}\n{file2_path}: {line2}')
+                        column1 = line1.split(',')
+                        column2 = line2.split(',')
+                        for col_num, (col1, col2) in enumerate(zip(column1, column2), start = 1):
+                            if col1 != col2:
+                                col2 = ('NULL' if col2 == '' else col2)
+                                print(f"\nAt column {col_num}: \nOrignial Data: {col1} \nTarget Data: {col2}")
+                        Indicator = False
+            if Indicator:
+                print('\{file1_path} and {file2_path} have same structure and content.')
+        
+            print('Comparison Completed!')
+        except Exception as e:
+            print(f'Error:{e}')
+            return False  
 
 
 # %%
-def file_comparsion(file1_path , file2_path):
-    try: 
-        with open(file1_path, 'r') as f1, open(file2_path, 'r') as f2:
-            print('Comparison Started...')
-            Indicator = True
-            for line_num, (line1, line2) in enumerate(zip(f1, f2), start = 1):
-                if line1 != line2:
-                    print(f'\nDifference found at line {line_num}: \n{file1_path}: {line1}\n{file2_path}: {line2}')
-                    column1 = line1.split(',')
-                    column2 = line2.split(',')
-                    for col_num, (col1, col2) in enumerate(zip(column1, column2), start = 1):
-                        if col1 != col2:
-                            col2 = ('NULL' if col2 == '' else col2)
-                            print(f"\nAt column {col_num}: \nOrignial Data: {col1} \nTarget Data: {col2}")
-                    Indicator = False
-        if Indicator:
-            print('\{file1_path} and {file2_path} have same structure and content.')
-        
-        print('Comparison Completed!')
-    except Exception as e:
-        print(f'Error:{e}')
-        return False  
-
-file_comparsion("flights_december.csv", "flights_december copy.csv")

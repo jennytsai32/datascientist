@@ -71,3 +71,12 @@ df['ARRIVAL_DELAY'] = df['ARRIVAL_DELAY'].apply(lambda x:'1' if x>0 else '0')
 features = df.iloc[:, 0:-1].columns
 target = 'ARRIVAL_DELAY'
 m.feature_selection(features, target)
+
+
+#%%
+datasci.file_comparsion("flights_december.csv", "flights_december copy.csv")
+
+#%%
+
+datasci.column_tolist(df)
+# %%
