@@ -178,13 +178,12 @@ class datasci():
 
 
     def column_tolist (self):
-        x = self.columns()
+        x = self.df.columns
         temp = []
         for i in x:
             temp.append(i)
         return temp
         
-
 
     def file_comparsion(file1_path , file2_path):
         try: 
