@@ -11,16 +11,26 @@ from sklearn.ensemble import RandomForestClassifier
 
 
 class datasci():
+
     def __init__(self, df):
         self.df = df
         self.shape = df.shape
         self.nrows = df.shape[0]
         self.ncols = df.shape[1]
 
+
     def size(self):
+        '''
+        returns number of columns and rows in an easy-to-read format.
+        '''
         return f"There are {self.nrows} rows and {self.ncols} columns in the dataset."
-        
+
+
     def missingReport(self, insight = False):
+        '''
+        returns a report of variables with missing values and missing value percentage in relations to its sample size. 
+        If insight = True, prints recommendations for how to handle missing values.
+        '''
         missingVal = self.df[self.df.columns[self.df.isnull().any()].tolist()].isnull().sum()
         missingPer = missingVal * 100 / self.nrows
 
@@ -41,6 +51,12 @@ class datasci():
     
 
     def imputation(self, columns, impute = 'mean', insight=False):
+        '''
+        imputes the missing values with selected statistics.
+        :: columns: list of column names with missing values to be imputed.
+        :: impute: statistics to be imputed, including 'mean', 'median', 'mode', 'max', 'min', and 'other'. If 'other' is selected, users will be prompted to enter custom values to impute for each column.
+        :: insight: default = False. If True, prints a table comparing statistics before vs. after imputation.
+        '''
         if insight == True:
             target = str(input("Please enter the target variable:"))
             nan_bf = self.df[columns].isnull().sum()
@@ -52,7 +68,6 @@ class datasci():
 
             nan_df = {'Before imputation': nan_bf}
             std_df = {'Before imputation': std_bf}
-
 
         if impute == 'mean':
             for col in columns:
@@ -107,6 +122,13 @@ class datasci():
 
 
     def recode(self, column, oldVal, newVal, inplace=False):
+        '''
+        recode the variable by replacing a list of old values with new values.
+        :: column: column name whose values to be recoded.
+        :: oldVal: list of original values within the variable/column.
+        :: newVal: list of new values to replace the old values.
+        :: inplace: default = False, which creates a new variable/column with new values. If True, new values replace the old values in the original variable/column.
+        '''
         new_name = str(column) + '_NEW'
         self.df[new_name] = self.df[column].replace(oldVal, newVal)
 
@@ -119,6 +141,11 @@ class datasci():
         
 
     def eda(self, column, insight=False):
+        '''
+        return a graph (histogram or bar chart) of the variable's distribution with descriptive statistics for exploratory data analysis.
+        :: column: column name, can be continuous variable or categorical variable.
+        :: insight: default = False. If True, prints recommendations for data imputation based on skewness of distribution of the variable.
+        '''
         if isinstance(self.df[column][0], (np.int64, np.int32, np.float32, np.float64)):
     
             data = {'N':[len(self.df[column])],
@@ -156,7 +183,11 @@ class datasci():
         
         
     def featureSelection(self, columns, target):
-        
+        '''
+        returns a bar chart with top 10 important features predicting the target variable.
+        :: features: list of column names to be entered into the feature selection model (i.e., Random Forest).
+        :: target: target variable name
+        '''
         X = self.df[columns].values
         Y = self.df[target].values
         feature_names = self.df[columns].columns
