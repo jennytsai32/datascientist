@@ -1,7 +1,7 @@
 # datasci
 A python module aimed to simplify and shorten the data preprocessing process. This module includes functions/methods under two categories: (1) data preprocessing and (2) preliminary analysis. See below for the list of functions and documentations:
 
-*******DATA PREPROCESSING*******:
+*******DATA PREPROCESSING*******:<br>
 (1) .size()
     prints number of columns and rows in the dataframe in an easy-to-read format.
     
@@ -24,7 +24,7 @@ A python module aimed to simplify and shorten the data preprocessing process. Th
 (5) .column_tolist()
 
 
-*******PRELIMINARY ANALYSIS*******:
+*******PRELIMINARY ANALYSIS*******:<br>
 (6) .eda(column, insight = False)
     return a graph (histogram or bar chart) of the variable's distribution with descriptive statistics for exploratory data analysis.
     :: column: column name, can be continuous variable or categorical variable.
