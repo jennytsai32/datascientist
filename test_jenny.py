@@ -19,7 +19,7 @@ print(m.missingReport(insight=True))
 
 
 # %% (2a) EDA - continuous variable
-print(m.eda('TAXI_IN'))
+m.eda('TAXI_IN', insight=True)
 
 
 # %% (2b) EDA - categorical variable
@@ -70,13 +70,13 @@ df['ARRIVAL_DELAY'] = df['ARRIVAL_DELAY'].apply(lambda x:'1' if x>0 else '0')
 # %% (5) feature selection
 features = df.iloc[:, 0:-1].columns
 target = 'ARRIVAL_DELAY'
-m.feature_selection(features, target)
+m.featureSelection(features, target)
 
 
-#%%
+#%% (6) File comparison
 datasci.file_comparsion("flights_december.csv", "flights_december copy.csv")
 
-#%%
+#%% (7) Column to list
 
-datasci.column_tolist(df)
+m.column_tolist()
 # %%

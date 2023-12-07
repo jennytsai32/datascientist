@@ -142,7 +142,7 @@ class datasci():
 
             if insight==True:
                 print('INSIGHT:')
-                if self.df[column].skew() >= 0.5 or self.df[column].skew() <= -0.5:
+                if self.df[column].skew() <= 0.5 and self.df[column].skew() >= -0.5:
                     print('The distribution is close to normal distribution. Mean can be a good estimate for data impuation.')
                 else:
                     print('The distribution is skewed. Median can be a good estimate for data impuation.')
@@ -155,7 +155,7 @@ class datasci():
             return self.df[column].value_counts()
         
         
-    def feature_selection(self, columns, target):
+    def featureSelection(self, columns, target):
         
         X = self.df[columns].values
         Y = self.df[target].values
