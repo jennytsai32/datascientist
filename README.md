@@ -2,8 +2,8 @@
 datasci is a python module aimed to simplify and shorten the data preprocessing process. You can clone the github repo to use this module. The folder includes the following files:<br>
 (1) datasci.py: the module <br>
 (2) test_jenny.py: test file including the example codes <br>
-(3) flight_december.csv & flight_december copy.csv: datasets for testing file <br>
-(4) README.md:detailed description of the module <br><br>
+(3) flight_december.csv & flight_december copy.csv: sample datasets for testing file. The datasets are published by U.S. Department of Transportation and have been truncated for demo purposes.<br>
+(4) README.md: a detailed description of the module <br><br>
 
 
 The datasci module has functions/methods under two categories: (1) data preprocessing and (2) preliminary analysis. See below for the list of functions and documentations: <br>
