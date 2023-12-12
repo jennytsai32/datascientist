@@ -28,8 +28,9 @@ The datasci module has functions/methods under two categories: (1) data preproce
     :: newVal: list of new values to replace the old values.
     :: inplace: default = False, which creates a new variable/column with new values. If True, new values replace the old values in the original variable/column.
     
-(5) .column_tolist()
-
+(5) .column_tolist(self)
+    returns a clean list of all the columns
+    :: self: the target data frame
 
 *******PRELIMINARY ANALYSIS*******:<br>
 (6) .eda(column, insight = False)
@@ -43,7 +44,9 @@ The datasci module has functions/methods under two categories: (1) data preproce
     :: target: target variable name
 
 (8) .file_comparison(file_path1, file_path2)
-
+    returns detail of differences between two files
+    :: file_path1: first file to compare
+    :: file_path2: second file to compare
 
 
 *******recommendation packages*******:<br>
