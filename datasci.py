@@ -207,7 +207,7 @@ class datasci():
         plt.tight_layout()
         plt.show()
 
-
+    # read and store the column names to a clean list
     def column_tolist (self):
         x = self.df.columns
         temp = []
@@ -215,7 +215,7 @@ class datasci():
             temp.append(i)
         return temp
         
-
+    # read and check the differences between two files.
     def file_comparsion(file1_path , file2_path):
         try: 
             with open(file1_path, 'r') as f1, open(file2_path, 'r') as f2:
