@@ -39,7 +39,7 @@ new = ['American Airline','Delta']
 
 m.recode(column = 'AIRLINE', oldVal=old, newVal=new, inplace=True)
 
-# %% data-cleaning using pandas
+# %% data-cleaning using pandas: aim to only keep pre-departure info to predict arrival delay.
 
 df.drop(['YEAR',                   # year = 2015, add no value to the model
         'FLIGHT_NUMBER',           # too many categories and will cause trouble in one-hot encoding
@@ -64,6 +64,7 @@ df.drop(['YEAR',                   # year = 2015, add no value to the model
 
 df.dropna(subset=['ARRIVAL_DELAY'], inplace=True)
 
+# recode the variable to binary for easy intepretation
 df['ARRIVAL_DELAY'] = df['ARRIVAL_DELAY'].apply(lambda x:'1' if x>0 else '0')
 
 
@@ -73,10 +74,10 @@ target = 'ARRIVAL_DELAY'
 m.featureSelection(features, target)
 
 
-#%% (6) File comparison
+#%% (6) file comparison
 datasci.file_comparsion("flights_december.csv", "flights_december copy.csv")
 
-#%% (7) Column to list
+#%% (7) column to list
 
 m.column_tolist()
 # %%
